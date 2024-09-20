@@ -40,12 +40,12 @@ function createBoard() {
   const placeShipsRandomly = () => {
     for (let i = 0; i < 5; i++) {
       let direction = Math.random >= 0.5;
-      let startPosX = getRandomIntInclusive(1, 10);
-      let startPosY = getRandomIntInclusive(1, 10);
+      let startPosX = getRandomIntInclusive(0, 9);
+      let startPosY = getRandomIntInclusive(0, 9);
       while (!placeShipOnBoard(startPosX, startPosY, i, direction)) {
         direction = Math.random >= 0.5;
-        startPosX = getRandomIntInclusive(1, 10);
-        startPosY = getRandomIntInclusive(1, 10);
+        startPosX = getRandomIntInclusive(0, 9);
+        startPosY = getRandomIntInclusive(0, 9);
       }
     }
     return true;
@@ -102,8 +102,18 @@ function createBoard() {
     return NOSunkShips === 5;
   };
 
+  const getBoard = () => {
+    return [...gameBoard];
+  };
+
   constructor();
 
-  return { placeShipOnBoard, placeShipsRandomly, receiveAttack, checkLoss };
+  return {
+    placeShipOnBoard,
+    placeShipsRandomly,
+    receiveAttack,
+    checkLoss,
+    getBoard,
+  };
 }
-export { createBoard };
+export { createBoard, getRandomIntInclusive };
