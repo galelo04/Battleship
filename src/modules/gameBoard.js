@@ -55,6 +55,13 @@ function createBoard() {
 
   const placeShipOnBoard = (startPosX, startPosY, shipId, direction) => {
     const shipLength = ships[shipId].getLength();
+    const upEdge = startPosY === 0;
+    const botEdge = direction ? startPosY + shipLength === 10 : startPosY === 9;
+    const leftEdge = startPosX === 0;
+    const rightEdge = !direction
+      ? startPosX + shipLength === 10
+      : startPosX === 9;
+
     if (startPosX > 9 || startPosX < 0 || startPosY > 9 || startPosY < 0)
       return false;
     if (direction) {
@@ -63,8 +70,20 @@ function createBoard() {
       for (let i = 0; i < shipLength; i++) {
         if (gameBoard[startPosY + i][startPosX]) return false;
       }
+      if (!upEdge) {
+        gameBoard[startPosY - 1][startPosX] = '/';
+        if (!leftEdge) gameBoard[startPosY - 1][startPosX - 1] = '/';
+        if (!rightEdge) gameBoard[startPosY - 1][startPosX + 1] = '/';
+      }
       for (let i = 0; i < shipLength; i++) {
+        if (!leftEdge) gameBoard[startPosY + i][startPosX - 1] = '/';
         gameBoard[startPosY + i][startPosX] = shipId + 1;
+        if (!rightEdge) gameBoard[startPosY + i][startPosX + 1] = '/';
+      }
+      if (!botEdge) {
+        gameBoard[startPosY + shipLength][startPosX] = '/';
+        if (!leftEdge) gameBoard[startPosY + shipLength][startPosX - 1] = '/';
+        if (!rightEdge) gameBoard[startPosY + shipLength][startPosX + 1] = '/';
       }
     }
     if (!direction) {
@@ -73,6 +92,22 @@ function createBoard() {
       for (let i = 0; i < shipLength; i++) {
         if (gameBoard[startPosY][startPosX + i]) return false;
       }
+      if (!leftEdge) {
+        gameBoard[startPosY][startPosX - 1] = '/';
+        if (!upEdge) gameBoard[startPosY - 1][startPosX - 1] = '/';
+        if (!botEdge) gameBoard[startPosY + 1][startPosX - 1] = '/';
+      }
+      for (let i = 0; i < shipLength; i++) {
+        if (!upEdge) gameBoard[startPosY - 1][startPosX + i] = '/';
+        gameBoard[startPosY][startPosX + i] = shipId + 1;
+        if (!botEdge) gameBoard[startPosY + 1][startPosX + i] = '/';
+      }
+      if (!rightEdge) {
+        gameBoard[startPosY][startPosX + shipLength] = '/';
+        if (!upEdge) gameBoard[startPosY - 1][startPosX + shipLength] = '/';
+        if (!botEdge) gameBoard[startPosY + 1][startPosX + shipLength] = '/';
+      }
+
       for (let i = 0; i < shipLength; i++) {
         gameBoard[startPosY][startPosX + i] = shipId + 1;
       }
@@ -90,7 +125,7 @@ function createBoard() {
       gameBoard[posY][posX] === 0
     )
       return null;
-    if (gameBoard[posY][posX]) {
+    if (gameBoard[posY][posX] && gameBoard[posY][posX] !== '/') {
       ships[gameBoard[posY][posX] - 1].hit();
       if (ships[gameBoard[posY][posX] - 1].isSunk()) {
         NOSunkShips++;

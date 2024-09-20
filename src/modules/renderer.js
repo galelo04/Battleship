@@ -9,7 +9,7 @@ const renderer = (function () {
       row.forEach((cell) => {
         const cellDiv = document.createElement('div');
         cellDiv.classList.add('cell');
-        if (cell) cellDiv.classList.add('ship');
+        if (cell && cell !== '/') cellDiv.classList.add('ship');
         boardDiv.appendChild(cellDiv);
       });
     });
