@@ -28,7 +28,9 @@ function createBoard() {
   let NOSunkShips;
 
   const constructor = () => {
-    gameBoard.fill().map(() => Array(10).fill(null));
+    for (let i = 0; i < 10; i++) {
+      gameBoard[i] = Array(10).fill(null); // Initialize each row separately
+    }
     const lengthsOfShips = [5, 4, 3, 3, 2];
     for (let i = 0; i < 5; i++) {
       const ship = createShip(lengthsOfShips[i]);
