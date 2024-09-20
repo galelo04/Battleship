@@ -25,8 +25,11 @@ function createPlayer(type) {
     }
     return attack;
   };
+  const getBoard = () => {
+    return board.getBoard();
+  };
   constructor();
-  return { play };
+  return { play, getBoard };
 }
 
 export { createPlayer };

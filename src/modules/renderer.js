@@ -5,11 +5,13 @@ const renderer = (function () {
   };
   const renderBoard = (board, boardNum) => {
     const boardDiv = document.querySelector(`#board${boardNum}`);
-    board.forEach((cell) => {
-      const cellDiv = document.createElement('div');
-      cellDiv.classList.add('cell');
-      if (cell) cellDiv.classList.add('ship');
-      boardDiv.appendChild(cellDiv);
+    board.forEach((row) => {
+      row.forEach((cell) => {
+        const cellDiv = document.createElement('div');
+        cellDiv.classList.add('cell');
+        if (cell) cellDiv.classList.add('ship');
+        boardDiv.appendChild(cellDiv);
+      });
     });
   };
   return { render };
