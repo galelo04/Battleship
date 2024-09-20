@@ -24,11 +24,11 @@ function getRandomIntInclusive(min, max) {
 
 function createBoard() {
   const ships = Array(5);
-  const gameBoard = Array(100);
+  const gameBoard = Array(10);
   let NOSunkShips;
 
   const constructor = () => {
-    gameBoard.fill(null);
+    gameBoard.fill().map(() => Array(10).fill(null));
     const lengthsOfShips = [5, 4, 3, 3, 2];
     for (let i = 0; i < 5; i++) {
       const ship = createShip(lengthsOfShips[i]);
@@ -39,11 +39,11 @@ function createBoard() {
 
   const placeShipsRandomly = () => {
     for (let i = 0; i < 5; i++) {
-      let direction = Math.random >= 0.5;
+      let direction = getRandomIntInclusive(0, 1);
       let startPosX = getRandomIntInclusive(0, 9);
       let startPosY = getRandomIntInclusive(0, 9);
       while (!placeShipOnBoard(startPosX, startPosY, i, direction)) {
-        direction = Math.random >= 0.5;
+        direction = getRandomIntInclusive(0, 1);
         startPosX = getRandomIntInclusive(0, 9);
         startPosY = getRandomIntInclusive(0, 9);
       }
@@ -59,20 +59,20 @@ function createBoard() {
       //true --> vertical
       if (startPosY + shipLength > 9) return false;
       for (let i = 0; i < shipLength; i++) {
-        if (gameBoard[(startPosY + i) * 10 + startPosX]) return false;
+        if (gameBoard[startPosY + i][startPosX]) return false;
       }
       for (let i = 0; i < shipLength; i++) {
-        gameBoard[(startPosY + i) * 10 + startPosX] = shipId + 1;
+        gameBoard[startPosY + i][startPosX] = shipId + 1;
       }
     }
     if (!direction) {
       // false --> horizontal
       if (startPosX + shipLength > 9) return false;
       for (let i = 0; i < shipLength; i++) {
-        if (gameBoard[startPosY * 10 + startPosX + i]) return false;
+        if (gameBoard[startPosY][startPosX + i]) return false;
       }
       for (let i = 0; i < shipLength; i++) {
-        gameBoard[startPosY * 10 + startPosX + i] = shipId + 1;
+        gameBoard[startPosY][startPosX + i] = shipId + 1;
       }
     }
     return true;
@@ -84,18 +84,18 @@ function createBoard() {
       posX < 0 ||
       posY > 9 ||
       posY < 0 ||
-      gameBoard[posX + posY * 10] === -1 ||
-      gameBoard[posX + posY * 10] === 0
+      gameBoard[posY][posX] === -1 ||
+      gameBoard[posY][posX] === 0
     )
       return null;
-    if (gameBoard[posX + posY * 10]) {
-      ships[gameBoard[posX + posY * 10] - 1].hit();
-      if (ships[gameBoard[posX + posY * 10] - 1].isSunk()) {
+    if (gameBoard[posY][posX]) {
+      ships[gameBoard[posY][posX] - 1].hit();
+      if (ships[gameBoard[posY][posX] - 1].isSunk()) {
         NOSunkShips++;
       }
-      gameBoard[posX + posY * 10] = 0;
-    } else gameBoard[posX + posY * 10] = -1;
-    return gameBoard[posX + posY * 10];
+      gameBoard[posY][posX] = 0;
+    } else gameBoard[posY][posX] = -1;
+    return gameBoard[posY][posX];
   };
 
   const checkLoss = () => {
@@ -103,7 +103,7 @@ function createBoard() {
   };
 
   const getBoard = () => {
-    return [...gameBoard];
+    return gameBoard.map((row) => [...row]);
   };
 
   constructor();
