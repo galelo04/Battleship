@@ -12,7 +12,7 @@ function createPlayer(type) {
     return computerPlay();
   };
   const personPlay = (posX, posY) => {
-    return board.receiveAttack(posX, posY);
+    return board.receiveAttack(posX, posY) !== null;
   };
   const computerPlay = () => {
     let posX = getRandomIntInclusive(0, 9);
