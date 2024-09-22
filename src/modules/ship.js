@@ -3,7 +3,7 @@ function createShip(length) {
   let _sunk;
   let _NOHits;
   const constructor = (length) => {
-    _length = length >= 2 && length <= 5 ? length : null;
+    _length = length >= 1 && length <= 5 ? length : null;
     _sunk = false;
     _NOHits = 0;
   };
