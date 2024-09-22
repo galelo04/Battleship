@@ -23,7 +23,7 @@ function getRandomIntInclusive(min, max) {
 */
 
 function createBoard() {
-  const ships = Array(5);
+  const ships = Array(10);
   const gameBoard = Array(10);
   let NOSunkShips;
 
@@ -31,8 +31,8 @@ function createBoard() {
     for (let i = 0; i < 10; i++) {
       gameBoard[i] = Array(10).fill(null); // Initialize each row separately
     }
-    const lengthsOfShips = [5, 4, 3, 3, 2];
-    for (let i = 0; i < 5; i++) {
+    const lengthsOfShips = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+    for (let i = 0; i < ships.length; i++) {
       const ship = createShip(lengthsOfShips[i]);
       ships[i] = ship;
     }
@@ -40,7 +40,7 @@ function createBoard() {
   };
 
   const placeShipsRandomly = () => {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < ships.length; i++) {
       let direction = getRandomIntInclusive(0, 1);
       let startPosX = getRandomIntInclusive(0, 9);
       let startPosY = getRandomIntInclusive(0, 9);
@@ -136,7 +136,7 @@ function createBoard() {
   };
 
   const checkLoss = () => {
-    return NOSunkShips === 5;
+    return NOSunkShips === ships.length;
   };
 
   const getBoard = () => {
