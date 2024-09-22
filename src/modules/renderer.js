@@ -7,7 +7,7 @@ const renderer = (function () {
     const boardDiv = document.querySelector(`#board${boardNum}`);
     boardDiv.innerHTML = '';
     let i = 0;
-    board.forEach((row) => {
+    board.getBoard().forEach((row) => {
       let j = 0;
       row.forEach((cell) => {
         const cellDiv = document.createElement('div');
@@ -16,7 +16,8 @@ const renderer = (function () {
         cellDiv.setAttribute('data-set-y', i);
         if (cell === -1) cellDiv.classList.add('miss');
         else if (cell === 0) cellDiv.classList.add('hit');
-        if (cell && cell !== '/') cellDiv.classList.add('ship');
+        if (cell && cell !== '/' && boardNum === 1)
+          cellDiv.classList.add('ship');
         boardDiv.appendChild(cellDiv);
         j++;
       });

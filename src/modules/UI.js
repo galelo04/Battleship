@@ -7,7 +7,7 @@ const UI = (function () {
     bindEvents();
   };
   const cacheDOM = () => {
-    board = document.querySelector('#board1');
+    board = document.querySelector('#board2');
   };
   const bindEvents = () => {
     board.addEventListener('click', (event) => {

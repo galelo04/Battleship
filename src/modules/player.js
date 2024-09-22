@@ -7,29 +7,32 @@ function createPlayer(type) {
     board.placeShipsRandomly();
   };
 
-  const play = (posX, posY) => {
-    if (_type === 'real') return personPlay(posX, posY);
-    return computerPlay();
+  const play = (posX, posY, opponentBoard) => {
+    if (_type === 'real') return personPlay(posX, posY, opponentBoard);
+    return computerPlay(opponentBoard);
   };
-  const personPlay = (posX, posY) => {
-    return board.receiveAttack(posX, posY) !== null;
+  const personPlay = (posX, posY, opponentBoard) => {
+    return opponentBoard.receiveAttack(posX, posY) !== null;
   };
-  const computerPlay = () => {
+  const computerPlay = (opponentBoard) => {
     let posX = getRandomIntInclusive(0, 9);
     let posY = getRandomIntInclusive(0, 9);
-    let attack = board.receiveAttack(posX, posY);
-    while (!attack) {
+    let attack = opponentBoard.receiveAttack(posX, posY);
+    while (attack === null) {
       posX = getRandomIntInclusive(0, 9);
       posY = getRandomIntInclusive(0, 9);
-      attack = board.receiveAttack(posX, posY);
+      attack = opponentBoard.receiveAttack(posX, posY);
     }
     return attack;
   };
   const getBoard = () => {
-    return board.getBoard();
+    return board;
+  };
+  const checkLoss = () => {
+    return board.checkLoss();
   };
   constructor();
-  return { play, getBoard };
+  return { play, getBoard, checkLoss };
 }
 
 export { createPlayer };

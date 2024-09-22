@@ -9,10 +9,19 @@ const game = (function () {
     renderer.render(player.getBoard(), computer.getBoard());
   };
   const handleAttack = (posX, posY) => {
-    if (player.play(posX, posY)) {
+    if (player.play(posX, posY, computer.getBoard())) {
       renderer.render(player.getBoard(), computer.getBoard());
-      setTimeout(computer.play(), 1000);
-      renderer.render(player.getBoard(), computer.getBoard());
+      if (computer.checkLoss()) {
+        alert('you won');
+        if (confirm('play again')) constructor();
+      } else {
+        computer.play(null, null, player.getBoard());
+        renderer.render(player.getBoard(), computer.getBoard());
+        if (player.checkLoss()) {
+          alert('you lost');
+          if (confirm('play again')) constructor();
+        }
+      }
       return true;
     }
     return false;
